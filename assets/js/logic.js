@@ -3,6 +3,7 @@ var startMessage = document.querySelector("#start-screen");
 var timerElement = document.querySelector("#time");
 var choices = document.querySelector("#choices");
 var questionTitle = document.querySelector("#question-title");
+var feedback = document.querySelector("#feedback");
 
 // var chosenWord = "";
 // var numBlanks = 0;
@@ -10,6 +11,9 @@ var winCounter = 0;
 var questionCount = quiz.length;
 var index = 0; // binding for question #.
 var timerCount;
+var correctReponse = "Correct!";
+var incorrectReponse = "Wrong!";
+var timeoutId = 0;
 // var loseCounter = 0;
 // var isWin = false;
 // var timer;
@@ -17,7 +21,8 @@ var timerCount;
 
 // The startGame function is called when the start button is clicked
 function startGame() {
-  // isWin = false;
+  
+  // set timer seconds
   timerCount = 75;
 
   // reset the question index
@@ -45,8 +50,6 @@ function manageQuiz () {
   
   if (index < quiz.length) {
     askQuestion(index);
-  } else {
-    //endGame();
   }
 }
 
@@ -105,7 +108,9 @@ function endGame () {
   //clearInterval(timer);
   timerElement.textContent = 0;
   console.log("Timer element just set to 0: "  + timerElement.textcontent)
-  alert("game over");
+  //alert("game over");
+  clear(timeoutId);
+
 }
 
 // Capture Start button being clicked
@@ -128,14 +133,20 @@ choices.addEventListener("click", function(event) {
     var selectedIndex = element.getAttribute("data-index");
     var correctIndex = quiz[index].correct;
 
+    // check if contestant selected the right answer
     if (selectedIndex == correctIndex) {
-      // check if contestant selected the right answer
-      // console.log("You guessed this question correctly");
+      feedback.textContent = correctReponse;
       winCounter++;
     } else {
       // take 10 seconds off for an incorrect answer
       timerCount = timerCount - 10;
+      feedback.textContent = incorrectReponse;
     }
+
+    // set a timer for display of response text
+    timeoutId = setTimeout(() => {
+      feedback.textContent = "";
+    }, 1500);
 
     index++;
     console.log("Index is:" + index)
@@ -143,3 +154,5 @@ choices.addEventListener("click", function(event) {
     manageQuiz();
   }
 });
+
+
