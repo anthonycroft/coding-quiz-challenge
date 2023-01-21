@@ -1,0 +1,145 @@
+var startButton = document.querySelector("#start");
+var startMessage = document.querySelector("#start-screen");
+var timerElement = document.querySelector("#time");
+var choices = document.querySelector("#choices");
+var questionTitle = document.querySelector("#question-title");
+
+// var chosenWord = "";
+// var numBlanks = 0;
+var winCounter = 0;
+var questionCount = quiz.length;
+var index = 0; // binding for question #.
+var timerCount;
+// var loseCounter = 0;
+// var isWin = false;
+// var timer;
+// var timerCount;
+
+// The startGame function is called when the start button is clicked
+function startGame() {
+  // isWin = false;
+  timerCount = 75;
+
+  // reset the question index
+  index = 0;
+  choices.innerHTML = "";
+  questionTitle.textContent = "";
+
+  startTimer();
+  manageQuiz();
+  // Prevents start button from being clicked when round is in progress
+  // startButton.disabled = true;
+  // renderBlanks()
+  // startTimer()
+}
+
+// function init () {
+//   startGame;
+// }
+
+
+// manages th quiz session
+function manageQuiz () {
+  // calls function to ask question
+  console.log("index is: " + index)
+  
+  if (index < quiz.length) {
+    askQuestion(index);
+  } else {
+    //endGame();
+  }
+}
+
+// The setTimer function starts and stops the timer and triggers winGame() and loseGame()
+function startTimer() {
+  // Sets timer
+  timer = setInterval(() => {
+    timerCount--;
+    // console.log("Counter is: " + timerCount);
+    timerElement.textContent = timerCount;
+    if (index == quiz.length || timerCount <= 0) {
+      // Tests if win condition is met
+      // if (timerCount > 0) {
+        // Clears interval and stops timer
+        clearInterval(timer);
+        endGame();
+      // }
+    }
+    // Tests if time has run out
+    // if (timerCount < 0) {
+    //   // Clears interval
+    //   clearInterval(timer);
+    //   //loseGame();
+    // }
+  }, 1000);
+}
+
+function askQuestion(index) {
+  // Clear todoList element and update todoCountSpan
+  choices.innerHTML = "";
+
+  var question  = quiz[index].question;
+  var answerCount = quiz[index].answers.length;
+
+  // display the question
+  questionTitle.textContent = question;
+
+  // Render a new button for each possible answer
+  for (var i = 0; i < answerCount; i++) {
+  
+    var answer = quiz[index].answers[i];
+    var button = document.createElement("button");
+    
+    // add text to the newly created button
+    button.textContent = `${i+1}. ${answer}`;
+
+    // set a data value, so we can tell which button is clicked later
+    button.setAttribute("data-index", i);
+
+    // append button to choices div
+    choices.appendChild(button);
+   }
+}
+
+function endGame () {
+  //clearInterval(timer);
+  timerElement.textContent = 0;
+  console.log("Timer element just set to 0: "  + timerElement.textcontent)
+  alert("game over");
+}
+
+// Capture Start button being clicked
+startButton.addEventListener("click", function(event) {
+ 
+  // hide the start screen
+  startMessage.setAttribute("class", "hide");
+  // start a new game
+  startGame();
+
+});
+
+// Capture a choices button being clicked
+choices.addEventListener("click", function(event) {
+  var element = event.target;
+
+  // If that element is a button...
+  if (element.matches("button") === true) {
+    // get the index of clicked button
+    var selectedIndex = element.getAttribute("data-index");
+    var correctIndex = quiz[index].correct;
+
+    if (selectedIndex == correctIndex) {
+      // check if contestant selected the right answer
+      // console.log("You guessed this question correctly");
+      winCounter++;
+    } else {
+      // take 10 seconds off for an incorrect answer
+      timerCount = timerCount - 10;
+    }
+
+    index++;
+    console.log("Index is:" + index)
+    // revert to quiz manager
+    manageQuiz();
+  }
+});
