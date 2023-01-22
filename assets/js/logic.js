@@ -167,6 +167,29 @@ function resetScreen() {
 
 }
 
+function recordScore(initials) {   // save the user's initials and score
+
+  // get the high scores from local storage
+  var scores = JSON.parse(localStorage.getItem("scores"));
+
+  var entry = {
+    initials: initials.trim(),
+    score: winCounter
+  }
+
+  // if this is the first score recorded, set up a new scores array
+  // to hold score objects
+  if (scores == null) {
+    // create user object for submission
+    var scores = [];
+  }
+
+  // add this score object to the array of score objects
+  scores.push(entry);
+  // add scores to local storage
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
 // Capture Start button being clicked
 startButton.addEventListener("click", function () {
   // hide the start screen
@@ -174,13 +197,6 @@ startButton.addEventListener("click", function () {
   // start the game
   startGame();
 });
-
-function recordScore() {
-  // save the user's initials and score
-  //localStorage.setItem("initials", count);
-  //localStorage.setItem("score", count);
-  alert("We are recording the score.");
-}
 
 const askToSave = () => {
 
@@ -199,7 +215,6 @@ const askToSave = () => {
     },
   });
 
-  console.log("Result.isDismissed is" + result.isConfirmed);
   return result.isConfirmed;
 
 }
@@ -243,16 +258,16 @@ choices.addEventListener("click", function(event) {
 submitButton.addEventListener("click", function () {
 
   var initials = inputInitials.textContent;
-  console.log("initials are:" + initials)
+
   if (initials.length == 0) {
     var response = askToSave();
-    console.log("reponse = " + response);
+
     if (!response) {
       console.log("Running ResetScreen in submitButton.addEventListener")
       resetScreen();
     } else {
       // record score
-      recordScore();
+      recordScore(initials);
     }
   }
   
