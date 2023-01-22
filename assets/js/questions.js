@@ -55,7 +55,7 @@ const quiz = [
       answers: ['function myFunction()', 'function:myFunction()', 'function = myFunction()'],
       correct: 0
     },
-    { question: 'How do call a function named "myFunction"?',
+    { question: 'How do you call a function named "myFunction"?',
       answers: ['call myFunction()', 'myFunction()', 'call myFunction myFunction()'],
       correct: 1
     },

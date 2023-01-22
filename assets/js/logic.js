@@ -70,15 +70,12 @@ function startTimer() {
   // Sets timer
   timer = setInterval(() => {
     timerCount--;
-    // console.log("Counter is: " + timerCount);
+
     timerElement.textContent = timerCount;
     if (index == quiz.length || timerCount <= 0) {
-      // Tests if win condition is met
-      // if (timerCount > 0) {
-        // Clears interval and stops timer
+
         clearInterval(timer);
         endGame();
-      // }
     }
   }, 1000);
 }
@@ -131,6 +128,20 @@ function endGame () {
 
 }
 
+function playSound (won) {
+  console.log("won = " + won);
+  // create a new Audio object
+  if (won) {
+    var sound = new Audio("./assets/sfx/correct.wav");
+  } else {
+    var sound = new Audio("./assets/sfx/incorrect.wav");
+  }
+
+  // play the sound effect
+  sound.play();
+  
+}
+
 // Capture Start button being clicked
 startButton.addEventListener("click", function () {
   // hide the start screen
@@ -152,11 +163,13 @@ choices.addEventListener("click", function(event) {
     // check if contestant selected the right answer
     if (selectedIndex == correctIndex) {
       feedback.textContent = correctReponse;
+      playSound(true);
       winCounter++;
     } else {
       // take 10 seconds off for an incorrect answer
       timerCount = timerCount - 10;
       feedback.textContent = incorrectReponse;
+      playSound(false);
     }
 
     // set a timer for display of response text
