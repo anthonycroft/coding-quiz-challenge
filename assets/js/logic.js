@@ -10,8 +10,6 @@ var score = document.querySelector("#final-score");
 var submitButton = document.querySelector("#submit");
 var inputInitials = document.querySelector("#initials");
 
-// var chosenWord = "";
-// var numBlanks = 0;
 var winCounter = 0;
 var questionCount = quiz.length;
 var index = 0; // binding for question #.
@@ -19,9 +17,7 @@ var timerCount;
 var correctReponse = "Correct!";
 var incorrectReponse = "Wrong!";
 var timeoutId = 0;
-var recordScore = true;
-// var loseCounter = 0;
-// var isWin = false;
+
 // var timer;
 // var timerCount;
 
@@ -138,7 +134,7 @@ function endGame () {
 }
 
 function playSound (won) {
-  console.log("won = " + won);
+
   // create a new Audio object
   if (won) {
     var sound = new Audio("./assets/sfx/correct.wav");
@@ -167,7 +163,10 @@ function resetScreen() {
 
 }
 
-function recordScore(initials) {   // save the user's initials and score
+// save the user's initials and score
+function recordScore (initials) {
+
+  console.log("We entered the recordSource function");
 
   // get the high scores from local storage
   var scores = JSON.parse(localStorage.getItem("scores"));
@@ -177,10 +176,13 @@ function recordScore(initials) {   // save the user's initials and score
     score: winCounter
   }
 
+  console.log("entry is: " + entry)
+
   // if this is the first score recorded, set up a new scores array
   // to hold score objects
   if (scores == null) {
     // create user object for submission
+    console.log("Scores are null")
     var scores = [];
   }
 
@@ -190,8 +192,8 @@ function recordScore(initials) {   // save the user's initials and score
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-// Capture Start button being clicked
-startButton.addEventListener("click", function () {
+  // Capture Start button being clicked
+  startButton.addEventListener("click", function () {
   // hide the start screen
   startMessage.setAttribute("class", "hide");
   // start the game
@@ -257,7 +259,9 @@ choices.addEventListener("click", function(event) {
 // Capture Start button being clicked
 submitButton.addEventListener("click", function () {
 
-  var initials = inputInitials.textContent;
+  var initials = inputInitials.value;
+
+  console.log("Initials are:" + initials)
 
   if (initials.length == 0) {
     var response = askToSave();
@@ -265,11 +269,15 @@ submitButton.addEventListener("click", function () {
     if (!response) {
       console.log("Running ResetScreen in submitButton.addEventListener")
       resetScreen();
+      return;
     } else {
       // record score
+      console.log("Running RecordScore in submitButton.addEventListener")
       recordScore(initials);
     }
   }
+
+  recordScore(initials);
   
 });
 
