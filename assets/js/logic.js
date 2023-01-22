@@ -7,6 +7,8 @@ var feedback = document.querySelector("#feedback");
 var questions = document.querySelector("#questions");
 var endScreen = document.querySelector("#end-screen");
 var score = document.querySelector("#final-score");
+var submitButton = document.querySelector("#submit");
+var inputInitials = document.querySelector("#initials");
 
 // var chosenWord = "";
 // var numBlanks = 0;
@@ -17,10 +19,22 @@ var timerCount;
 var correctReponse = "Correct!";
 var incorrectReponse = "Wrong!";
 var timeoutId = 0;
+var recordScore = true;
 // var loseCounter = 0;
 // var isWin = false;
 // var timer;
 // var timerCount;
+
+function resetScreen() {
+    // unhide the questions section
+    questions.setAttribute("class", "hide");
+
+    // unhide the feedback section
+    feedback.setAttribute("class", "feedback hide");
+
+    //reset the start screen
+    startMessage.setAttribute("class", "start")
+}
 
 // The startGame function is called when the start button is clicked
 function startGame() {
@@ -33,24 +47,19 @@ function startGame() {
   choices.innerHTML = "";
   questionTitle.textContent = "";
 
-  // hide the start screen
-  //startMessage.setAttribute("class", "start");
-
   // unhide the questions section
   questions.setAttribute("class", "");
 
   // unhide the feedback section
   feedback.setAttribute("class", "feedback");
 
+  // start Quiz timer 
   startTimer();
+  // start Quiz
   manageQuiz();
+
   // Prevents start button from being clicked when round is in progress
   // startButton.disabled = true;
-  // renderBlanks()
-  // startTimer()
-
-
-    // start a new game
 }
 
 // manages the quiz session
@@ -139,7 +148,23 @@ function playSound (won) {
 
   // play the sound effect
   sound.play();
-  
+}
+
+function resetScreen() {
+  // unhide the questions section
+  questions.setAttribute("class", "hide");
+
+  console.log("ResetScreen fired");
+
+  // unhide the feedback section
+  feedback.setAttribute("class", "feedback hide");
+
+  //reset the start screen
+  startMessage.setAttribute("class", "start")
+
+  // hide the end-screen
+  endScreen.setAttribute("class", "hide");
+
 }
 
 // Capture Start button being clicked
@@ -149,6 +174,35 @@ startButton.addEventListener("click", function () {
   // start the game
   startGame();
 });
+
+function recordScore() {
+  // save the user's initials and score
+  //localStorage.setItem("initials", count);
+  //localStorage.setItem("score", count);
+  alert("We are recording the score.");
+}
+
+const askToSave = () => {
+
+  // use the Swal object to get a reponse from user
+  const result = Swal.fire({
+    title: 'Save Score',
+    text: 'You must enter your initials to record a score! Do you want to record this score?',
+    icon: 'warning',
+    showDenyButton: true,
+    confirmButtonText: `Yes`,
+    denyButtonText: `No`,  
+    customClass: {
+      actions: 'my-actions',
+      confirmButton: 'order-2',
+      denyButton: 'order-3',
+    },
+  });
+
+  console.log("Result.isDismissed is" + result.isConfirmed);
+  return result.isConfirmed;
+
+}
 
 // Capture a choices button being clicked
 choices.addEventListener("click", function(event) {
@@ -163,13 +217,13 @@ choices.addEventListener("click", function(event) {
     // check if contestant selected the right answer
     if (selectedIndex == correctIndex) {
       feedback.textContent = correctReponse;
-      playSound(true);
+      //playSound(true);
       winCounter++;
     } else {
       // take 10 seconds off for an incorrect answer
       timerCount = timerCount - 10;
       feedback.textContent = incorrectReponse;
-      playSound(false);
+      //playSound(false);
     }
 
     // set a timer for display of response text
@@ -184,6 +238,27 @@ choices.addEventListener("click", function(event) {
     manageQuiz();
   }
 });
+
+// Capture Start button being clicked
+submitButton.addEventListener("click", function () {
+
+  var initials = inputInitials.textContent;
+  console.log("initials are:" + initials)
+  if (initials.length == 0) {
+    var response = askToSave();
+    console.log("reponse = " + response);
+    if (!response) {
+      console.log("Running ResetScreen in submitButton.addEventListener")
+      resetScreen();
+    } else {
+      // record score
+      recordScore();
+    }
+  }
+  
+});
+
+
 
 
 
