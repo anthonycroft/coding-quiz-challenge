@@ -4,6 +4,9 @@ var timerElement = document.querySelector("#time");
 var choices = document.querySelector("#choices");
 var questionTitle = document.querySelector("#question-title");
 var feedback = document.querySelector("#feedback");
+var questions = document.querySelector("#questions");
+var endScreen = document.querySelector("#end-screen");
+var score = document.querySelector("#final-score");
 
 // var chosenWord = "";
 // var numBlanks = 0;
@@ -30,28 +33,37 @@ function startGame() {
   choices.innerHTML = "";
   questionTitle.textContent = "";
 
+  // hide the start screen
+  //startMessage.setAttribute("class", "start");
+
+  // unhide the questions section
+  questions.setAttribute("class", "");
+
+  // unhide the feedback section
+  feedback.setAttribute("class", "feedback");
+
   startTimer();
   manageQuiz();
   // Prevents start button from being clicked when round is in progress
   // startButton.disabled = true;
   // renderBlanks()
   // startTimer()
+
+
+    // start a new game
 }
 
-// function init () {
-//   startGame;
-// }
-
-
-// manages th quiz session
+// manages the quiz session
 function manageQuiz () {
-  // calls function to ask question
-  console.log("index is: " + index)
-  
+
   if (index < quiz.length) {
     askQuestion(index);
-  }
+  } else {
+    // if we have reached the end of the questions end the game
+    endGame();
+  } 
 }
+
 
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
@@ -68,17 +80,11 @@ function startTimer() {
         endGame();
       // }
     }
-    // Tests if time has run out
-    // if (timerCount < 0) {
-    //   // Clears interval
-    //   clearInterval(timer);
-    //   //loseGame();
-    // }
   }, 1000);
 }
 
 function askQuestion(index) {
-  // Clear todoList element and update todoCountSpan
+  // Clear answers from any previously displayed question
   choices.innerHTML = "";
 
   var question  = quiz[index].question;
@@ -105,22 +111,32 @@ function askQuestion(index) {
 }
 
 function endGame () {
-  //clearInterval(timer);
+  // clear time display
   timerElement.textContent = 0;
-  console.log("Timer element just set to 0: "  + timerElement.textcontent)
-  //alert("game over");
-  clear(timeoutId);
+ 
+  // clear timeout on feedback text
+  clearInterval(timeoutId);
+
+  // unhide the questions section
+  questions.setAttribute("class", "hide");
+
+  // unhide the feedback section
+  feedback.setAttribute("class", "feedback hide");
+
+  // add final score to end-screen
+  score.textContent = winCounter;
+
+  // display the end-screen
+  endScreen.setAttribute("class", "");
 
 }
 
 // Capture Start button being clicked
-startButton.addEventListener("click", function(event) {
- 
+startButton.addEventListener("click", function () {
   // hide the start screen
   startMessage.setAttribute("class", "hide");
-  // start a new game
+  // start the game
   startGame();
-
 });
 
 // Capture a choices button being clicked
@@ -148,11 +164,14 @@ choices.addEventListener("click", function(event) {
       feedback.textContent = "";
     }, 1500);
 
+    // increment the question index
     index++;
-    console.log("Index is:" + index)
+
     // revert to quiz manager
     manageQuiz();
   }
 });
+
+
 
 
