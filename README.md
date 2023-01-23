@@ -3,7 +3,7 @@ Presents a JavaScript quiz to test player's knowledge of the JavaScript language
 
 ## Description
 
-This app loops through a set of pre-defined JavaScript questions presenting the player with a group of multiple choice answers from which they can select. Only one answer can be selected.
+This app loops through a set of pre-defined JavaScript questions presenting the player with a group of multiple choice answers from which they can select one.
 
 At the end of the quiz the player is presented with their score and the opportunity to save this score to the list of high scores (which are saved to local storage) against their initials. An exception to this is where the user scores zero, which is considered a no-score.
 
