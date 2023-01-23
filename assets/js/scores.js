@@ -15,9 +15,7 @@ function init() {
     ///////////////////////////////////////////////////////////////////////
 
     if (scores == null) {
-      h1Element.innerHTML = "There are currently no high scores to display! <br> Check back soon."
-      h1Element.setAttribute("id", "no-highscores");
-      clearButton.setAttribute("class", "hide");
+      displayNone();
       return;
     }
 
@@ -41,14 +39,26 @@ function init() {
     }
 }
 
-// Capture Start button being clicked
+// Capture Submit button being clicked
 clearButton.addEventListener("click", function () {
 
   // clear local storage
   localStorage.setItem("scores", null);
 
-  // redisplay scores
+  // clear displayed list HTML
   ol.innerHTML = "";
+
+  // set unique message when no high scores saved
+  displayNone();
 });
+
+function displayNone () {
+
+  // displays a specific message where there are currently no high scores saved
+  h1Element.innerHTML = "There are currently no high scores to display! <br> Check back soon."
+  h1Element.setAttribute("id", "no-highscores");
+  clearButton.setAttribute("class", "hide");
+
+}
 
 init();
