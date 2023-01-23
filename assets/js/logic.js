@@ -249,13 +249,13 @@ function updateScore (element) {
   }
 }
 
-// Capture Start button being clicked
+// Capture Submit button being clicked
 submitButton.addEventListener("click", async function () {
 
+  // get player's initials
   var initials = inputInitials.value;
 
-  console.log (inputInitials.value);
-
+  // deal with case where no initials entered
   if (initials.length == 0) {
     const response = await askToSave();
     if (response) {
