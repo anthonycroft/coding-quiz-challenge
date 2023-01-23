@@ -9,7 +9,7 @@ At the end of the quiz the player is presented with their score and the opportun
 
 A player is prevented from saving their score if they do not enter their initials - in which case an appropriate warning is issued.
 
-A particular score will only be saved once per set of initials.
+A particular score will only be saved once per set of initials, i.e. duplicate scores are not stored.
 
 After submitting a score the player is presented with the current list of high scores. This list displays the current *Top 10* in descending order OR all saved scores (if less than 10 currently stored).
 
@@ -23,7 +23,7 @@ The app uses the Sweetalert2 library which is documented here:
 
 ## Limitations
 
-The app does not have an ability to create logins; which means that players with the same initials will not be uniquely identified by the system. This will be considered for a future upgrade.
+The app does not have the ability to create logins; which means that players with the same initials will not be uniquely identified by the system. This will be considered for a future upgrade.
 
 ## Deployed Link:
 
