@@ -26,7 +26,7 @@ function startGame() {
   // set timer seconds
   timerCount = 75;
 
-  // reset the question index
+  // set the question index and question / answers to defaults
   index = 0;
   choices.innerHTML = "";
   questionTitle.textContent = "";
@@ -34,27 +34,25 @@ function startGame() {
   // unhide the questions section
   questions.setAttribute("class", "");
 
-  // unhide the feedback section
-  feedback.setAttribute("class", "feedback");
-
   // start Quiz timer 
   startTimer();
   // start Quiz
   manageQuiz();
 }
 
-// manages the quiz session
+// manages the quiz session by asking questions in order
 function manageQuiz () {
 
   if (index < quiz.length) {
     askQuestion(index);
   } else {
-    // if we have reached the end of the questions end the game
+    // if we have reached the end of the quiz end the game
     endGame();
   } 
 }
 
-// The setTimer function starts and stops the timer and triggers winGame() and loseGame()
+// The setTimer function starts and stops the timer and triggers endGame() when end 
+// of quiz or time limit expires
 function startTimer() {
   // Sets timer
   timer = setInterval(() => {
@@ -62,7 +60,6 @@ function startTimer() {
 
     timerElement.textContent = timerCount;
     if (index == quiz.length || timerCount <= 0) {
-
         clearInterval(timer);
         endGame();
     }
@@ -70,7 +67,7 @@ function startTimer() {
 }
 
 function askQuestion(index) {
-  // Clear answers from any previously displayed question
+  // Clear answers from any previous question
   choices.innerHTML = "";
 
   var question  = quiz[index].question;
@@ -112,7 +109,7 @@ function endGame () {
   // add final score to end-screen
   score.textContent = winCounter;
 
-    // display the end-screen
+ // display the end-screen
   endScreen.setAttribute("class", "");
 
   if (winCounter === 0) {
@@ -133,7 +130,7 @@ function playSound (won) {
   sound.play();
 }
 
-// save the user's initials and score
+// save the user's initials and score (where score != 0 and this is not a duplicate score for user)
 function recordScore (initials) {
 
   // get the high scores from local storage
@@ -149,21 +146,17 @@ function recordScore (initials) {
     const unique = checkScoreUnique(entry, scores);
 
     if (!unique) {
-      console.log("score " + entry.score + " is not unique.")
+      // we simply return as this is not a unque score for this user
       return;
     }
   } else {
-    // create user object for submission
+    // create scores object (array of user score)
     var scores = [];
   }
 
-  // if this is the first score recorded, set up a new scores array
-  if (scores == null) {
-
-  }
-  // add this score object to the array of score objects
+  // add this score to the scores object
   scores.push(entry);
-  // add scores to local storage
+  // add new scores object (array) to local storage
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
@@ -173,7 +166,7 @@ function checkScoreUnique(entry, scores) {
 
   for (let i = 0; i < scores.length; i++) {
     if (JSON.stringify(entry) === JSON.stringify(scores[i])) {
-      unique = false;
+      unique = false; // score is not unique
       break;
     }
   }
@@ -205,8 +198,7 @@ const askToSave = async () => {
     },
   })
 
-  console.log("result.isconfirmed: " + result.isConfirmed )
-  return result.isConfirmed;
+  return result.isConfirmed; // true if user wants to record score
 
 }
 
@@ -216,25 +208,30 @@ choices.addEventListener("click", function(event) {
 
   // If that element is a button...
   if (element.matches("button") === true) {
-    // get the index of clicked button
+    // get the index of clicked button (== answer index)
     var selectedIndex = element.getAttribute("data-index");
     var correctIndex = quiz[index].correct;
 
-    // check if contestant selected the right answer
+    // check if player selected the right answer
     if (selectedIndex == correctIndex) {
       feedback.textContent = correctReponse;
-      //playSound(true);
+      playSound(true);
       winCounter++;
     } else {
       // take 10 seconds off for an incorrect answer
       timerCount = timerCount - 10;
       feedback.textContent = incorrectReponse;
-      //playSound(false);
+      playSound(false);
     }
 
-    // set a timer for display of Correct/Wrong text
+    // unhide the feedback section
+    feedback.setAttribute("class", "feedback");
+
+    // set a timer for display of feedback text
     timeoutId = setTimeout(() => {
+      // clear the feedback section
       feedback.textContent = "";
+      feedback.setAttribute("class", "feedback hide");
     }, 1500);
 
     // increment the question index
