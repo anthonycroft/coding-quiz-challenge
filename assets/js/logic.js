@@ -172,20 +172,43 @@ function recordScore (initials) {
     score: winCounter
   }
 
-  console.log("entry is: " + entry)
+  if (scores != null) {
+    // check to see if this score already exists for this player
+    const unique = checkScoreUnique(entry, scores);
+
+    if (!unique) {
+      console.log("score " + entry.score + " is not unique.")
+      return;
+    }
+  } else {
+    // create user object for submission
+    var scores = [];
+  }
 
   // if this is the first score recorded, set up a new scores array
-  // to hold score objects
   if (scores == null) {
-    // create user object for submission
-    console.log("Scores are null")
-    var scores = [];
+
   }
 
   // add this score object to the array of score objects
   scores.push(entry);
   // add scores to local storage
   localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+// checks whether this is a unique score for this player
+function checkScoreUnique(entry, scores) {
+  var unique = true; // assume score will be uniquer
+
+  for (let i = 0; i < scores.length; i++) {
+    if (JSON.stringify(entry) === JSON.stringify(scores[i])) {
+      unique = false;
+      break;
+    }
+  }
+
+  return unique;
+
 }
 
 // Capture Start button being clicked
@@ -262,17 +285,13 @@ submitButton.addEventListener("click", async function () {
 
   if (initials.length == 0) {
     const response = await askToSave();
-    console.log("Response is: " + response);
     if (response) {
-      console.log ("we returned")
       return;
     }
-
   } else {
     recordScore(initials);
   }  
 
-  console.log("We got here!");
   // display highscores page
   location.replace('./highscores.html')
   
