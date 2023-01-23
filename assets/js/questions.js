@@ -3,7 +3,7 @@ const quiz = [
       answers: ['strings', 'booleans', 'alerts', 'numbers'],
       correct: 2
     },
-    { question: 'The condition in an if/else statement is enclosed withn ______.',
+    { question: 'The condition in an if/else statement is enclosed in ______.',
       answers: ['quotes', 'curly brackets', 'parentheses', 'square brackets'],
       correct: 2
     },
