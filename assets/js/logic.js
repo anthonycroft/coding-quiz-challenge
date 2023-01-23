@@ -18,20 +18,6 @@ var correctReponse = "Correct!";
 var incorrectReponse = "Wrong!";
 var timeoutId = 0;
 
-// var timer;
-// var timerCount;
-
-function resetScreen() {
-  // unhide the questions section
-  questions.setAttribute("class", "hide");
-
-  // unhide the feedback section
-  feedback.setAttribute("class", "feedback hide");
-
-  //reset the start screen
-  startMessage.setAttribute("class", "start")
-}
-
 // The startGame function is called when the start button is clicked
 function startGame() {
   
@@ -143,24 +129,6 @@ function playSound (won) {
   sound.play();
 }
 
-function resetScreen() {
-
-  // unhide the questions section
-  questions.setAttribute("class", "hide");
-
-  console.log("ResetScreen fired");
-
-  // unhide the feedback section
-  feedback.setAttribute("class", "feedback hide");
-
-  //reset the start screen
-  startMessage.setAttribute("class", "start")
-
-  // hide the end-screen
-  endScreen.setAttribute("class", "hide");
-
-}
-
 // save the user's initials and score
 function recordScore (initials) {
 
@@ -198,7 +166,7 @@ function recordScore (initials) {
 
 // checks whether this is a unique score for this player
 function checkScoreUnique(entry, scores) {
-  var unique = true; // assume score will be uniquer
+  var unique = true; // assume score will be unique
 
   for (let i = 0; i < scores.length; i++) {
     if (JSON.stringify(entry) === JSON.stringify(scores[i])) {
@@ -263,7 +231,7 @@ choices.addEventListener("click", function(event) {
       //playSound(false);
     }
 
-    // set a timer for display of response text
+    // set a timer for display of Correct/Wrong text
     timeoutId = setTimeout(() => {
       feedback.textContent = "";
     }, 1500);
