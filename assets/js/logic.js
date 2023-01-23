@@ -22,14 +22,14 @@ var timeoutId = 0;
 // var timerCount;
 
 function resetScreen() {
-    // unhide the questions section
-    questions.setAttribute("class", "hide");
+  // unhide the questions section
+  questions.setAttribute("class", "hide");
 
-    // unhide the feedback section
-    feedback.setAttribute("class", "feedback hide");
+  // unhide the feedback section
+  feedback.setAttribute("class", "feedback hide");
 
-    //reset the start screen
-    startMessage.setAttribute("class", "start")
+  //reset the start screen
+  startMessage.setAttribute("class", "start")
 }
 
 // The startGame function is called when the start button is clicked
@@ -53,9 +53,6 @@ function startGame() {
   startTimer();
   // start Quiz
   manageQuiz();
-
-  // Prevents start button from being clicked when round is in progress
-  // startButton.disabled = true;
 }
 
 // manages the quiz session
@@ -147,6 +144,7 @@ function playSound (won) {
 }
 
 function resetScreen() {
+
   // unhide the questions section
   questions.setAttribute("class", "hide");
 
@@ -165,8 +163,6 @@ function resetScreen() {
 
 // save the user's initials and score
 function recordScore (initials) {
-
-  console.log("We entered the recordSource function");
 
   // get the high scores from local storage
   var scores = JSON.parse(localStorage.getItem("scores"));
@@ -192,18 +188,18 @@ function recordScore (initials) {
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-  // Capture Start button being clicked
-  startButton.addEventListener("click", function () {
+// Capture Start button being clicked
+startButton.addEventListener("click", function () {
   // hide the start screen
   startMessage.setAttribute("class", "hide");
   // start the game
   startGame();
 });
 
-const askToSave = () => {
+const askToSave = async () => {
 
-  // use the Swal object to get a reponse from user
-  const result = Swal.fire({
+  // use the Swal object to get a response from user
+  const result = await Swal.fire({
     title: 'Save Score',
     text: 'You must enter your initials to record a score! Do you want to record this score?',
     icon: 'warning',
@@ -215,8 +211,9 @@ const askToSave = () => {
       confirmButton: 'order-2',
       denyButton: 'order-3',
     },
-  });
+  })
 
+  console.log("result.isconfirmed: " + result.isConfirmed )
   return result.isConfirmed;
 
 }
@@ -257,30 +254,29 @@ choices.addEventListener("click", function(event) {
 });
 
 // Capture Start button being clicked
-submitButton.addEventListener("click", function () {
+submitButton.addEventListener("click", async function () {
 
   var initials = inputInitials.value;
 
-  console.log("Initials are:" + initials)
+  console.log (inputInitials.value);
 
   if (initials.length == 0) {
-    var response = askToSave();
-
-    if (!response) {
-      console.log("Running ResetScreen in submitButton.addEventListener")
-      resetScreen();
+    const response = await askToSave();
+    console.log("Response is: " + response);
+    if (response) {
+      console.log ("we returned")
       return;
-    } else {
-      // record score
-      console.log("Running RecordScore in submitButton.addEventListener")
-      recordScore(initials);
     }
-  }
 
-  recordScore(initials);
+  } else {
+    recordScore(initials);
+  }  
+
+  console.log("We got here!");
+  // display highscores page
+  location.replace('./highscores.html')
   
 });
-
 
 
 
