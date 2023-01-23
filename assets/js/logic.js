@@ -88,6 +88,9 @@ function askQuestion(index) {
     // set a data value, so we can tell which button is clicked later
     button.setAttribute("data-index", i);
 
+    // set class attribute to target for styling
+    button.setAttribute("class", "answer");
+
     // append button to choices div
     choices.appendChild(button);
    }
