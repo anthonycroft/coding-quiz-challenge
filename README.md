@@ -27,7 +27,7 @@ The app does not have the ability to create logins; which means that players wit
 
 ## Deployed Link:
 
-[Password Generator](https://anthonycroft.github.io/coding-quiz-challenge/)
+[Javascript Coding Quiz](https://anthonycroft.github.io/coding-quiz-challenge/)
 
 ## Repo Link:
 
