@@ -112,6 +112,7 @@ function endGame () {
  // display the end-screen
   endScreen.setAttribute("class", "");
 
+  // if score is zero display unique message + 'Go Back' and 'View Highscores' buttons
   if (winCounter === 0) {
     scoreDetails.innerHTML = '<a href="index.html"><button>Go Back</button></a>' + '<a href="highscores.html"><button>View Highscores</button></a>';
     quizResult.textContent = "Uh-Oh! You scored zero, time to brush up on your JavaScript!"
@@ -208,23 +209,11 @@ choices.addEventListener("click", function(event) {
 
   // If that element is a button...
   if (element.matches("button") === true) {
-    // get the index of clicked button (== answer index)
-    var selectedIndex = element.getAttribute("data-index");
-    var correctIndex = quiz[index].correct;
 
-    // check if player selected the right answer
-    if (selectedIndex == correctIndex) {
-      feedback.textContent = correctReponse;
-      playSound(true);
-      winCounter++;
-    } else {
-      // take 10 seconds off for an incorrect answer
-      timerCount = timerCount - 10;
-      feedback.textContent = incorrectReponse;
-      playSound(false);
-    }
+    // update the score and play appropriate sound
+    updateScore(element);
 
-    // unhide the feedback section
+    // give player feedback
     feedback.setAttribute("class", "feedback");
 
     // set a timer for display of feedback text
@@ -241,6 +230,24 @@ choices.addEventListener("click", function(event) {
     manageQuiz();
   }
 });
+
+function updateScore (element) {
+  // get the index of clicked button (== answer index)
+  var selectedIndex = element.getAttribute("data-index");
+  var correctIndex = quiz[index].correct;
+
+  // check if player selected the right answer
+  if (selectedIndex == correctIndex) {
+    feedback.textContent = correctReponse;
+    playSound(true);
+    winCounter++;
+  } else {
+    // take 10 seconds off for an incorrect answer
+    timerCount = timerCount - 10;
+    feedback.textContent = incorrectReponse;
+    playSound(false);
+  }
+}
 
 // Capture Start button being clicked
 submitButton.addEventListener("click", async function () {
