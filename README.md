@@ -1,5 +1,5 @@
 # coding-quiz-challenge
-Present a JavaScrip quiz to test player's knowledge of the JavaScript language and techniques.
+Presents a JavaScript quiz to test player's knowledge of the JavaScript language and techniques.
 
 ## Description
 
@@ -37,7 +37,7 @@ The app does not have an ability to create logins; which means that players with
 
 ![Coding Quiz Challenge Home Page](https://github.com/anthonycroft/coding-quiz-challenge/blob/main/assets/images/coding-quiz-start-page.png)
 
-![Coding Quiz Challenge Question Page](https://github.com/anthonycroft/coding-quiz-challenge/blob/main/assets/images/coding-quiz-start-page.png)
+![Coding Quiz Challenge Question Page](https://github.com/anthonycroft/coding-quiz-challenge/blob/main/assets/images/coding-quiz-highscores-page.png)
 
 ![Coding Quiz Challenge High Scores Page](https://github.com/anthonycroft/coding-quiz-challenge/blob/main/assets/images/coding-quiz-question-page.png)
 
