@@ -13,7 +13,7 @@ A particular score will only be saved once per set of initials, i.e. duplicate s
 
 After submitting a score the player is presented with the current list of high scores. This list displays the current *Top 10* in descending order OR all saved scores (if less than 10 currently stored).
 
-If there are no saved high scores, an appropriate message is displayed to the player in place of the current high scores list.
+If there are no saved scores, an appropriate message is displayed to the player in place of the current high scores list.
 
 ## Dependencies
 
