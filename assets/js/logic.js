@@ -9,6 +9,8 @@ var endScreen = document.querySelector("#end-screen");
 var score = document.querySelector("#final-score");
 var submitButton = document.querySelector("#submit");
 var inputInitials = document.querySelector("#initials");
+var scoreDetails = document.querySelector("#score-details");
+var quizResult = document.querySelector("#quiz-result");
 
 var winCounter = 0;
 var questionCount = quiz.length;
@@ -51,7 +53,6 @@ function manageQuiz () {
     endGame();
   } 
 }
-
 
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
@@ -111,9 +112,13 @@ function endGame () {
   // add final score to end-screen
   score.textContent = winCounter;
 
-  // display the end-screen
+    // display the end-screen
   endScreen.setAttribute("class", "");
 
+  if (winCounter === 0) {
+    scoreDetails.innerHTML = '<a href="index.html"><button>Go Back</button></a>' + '<a href="highscores.html"><button>View Highscores</button></a>';
+    quizResult.textContent = "Uh-Oh! You scored zero, time to brush up on your JavaScript!"
+  }
 }
 
 function playSound (won) {
@@ -124,7 +129,6 @@ function playSound (won) {
   } else {
     var sound = new Audio("./assets/sfx/incorrect.wav");
   }
-
   // play the sound effect
   sound.play();
 }
@@ -157,7 +161,6 @@ function recordScore (initials) {
   if (scores == null) {
 
   }
-
   // add this score object to the array of score objects
   scores.push(entry);
   // add scores to local storage
@@ -174,9 +177,7 @@ function checkScoreUnique(entry, scores) {
       break;
     }
   }
-
   return unique;
-
 }
 
 // Capture Start button being clicked
