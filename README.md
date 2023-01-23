@@ -1,9 +1,11 @@
 # coding-quiz-challenge
-Presents a JavaScript quiz to test player's knowledge of the JavaScript language and techniques.
+Presents a timed JavaScript quiz to test player's knowledge of the JavaScript language and techniques. The time limit is set at 75 seconds.
 
 ## Description
 
-This app loops through a set of pre-defined JavaScript questions presenting the player with a group of multiple choice answers from which they can select one.
+This app loops through a set of pre-defined JavaScript questions presenting the player with a group of multiple choice answers from which they can select one. An incorrect answer results in a time penalty of 10 seconds, which is deducted from the currently remaining time.
+
+The quiz ends when either all questions have been answered *OR* the user runs out of time.
 
 At the end of the quiz the player is presented with their score and the opportunity to save this score to the list of high scores (which are saved to local storage) against their initials. An exception to this is where the user scores zero, which is considered a no-score.
 
